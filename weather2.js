@@ -37,6 +37,7 @@ async function search(cityName) {
 
     if (!geoData.results) {
         alert(`${cityName} is not found`)
+        load.style.display = "none"
         return;
     }else{
         
