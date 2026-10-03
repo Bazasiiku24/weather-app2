@@ -7,6 +7,7 @@ const windDirection = document.querySelector(".wind-direction");
 const apparentTemperature = document.querySelector(".apparent-temperature");
 const card = document.querySelector(".card");
 const weather = document.querySelector(".weather");
+const load = document.querySelector(".loading")
 
 console.log(card);
 
@@ -19,10 +20,17 @@ btn.addEventListener("click",()=>{
         console.log(cityName);
         search(cityName);
     }
-})
+});
+
+inputArea.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        const cityName = inputArea.value; // ← ここでも改めて取得する
+        search(cityName);
+    }
+});
 
 async function search(cityName) {
-
+    load.style.display = "block"
     
     const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${cityName}`)
     const geoData = await response.json();
@@ -47,7 +55,7 @@ async function search(cityName) {
 }
 
 function render(weatherData){
-    card.classList.remove
+    card.classList.add("run")
     temperature.innerHTML = weatherData.current.apparent_temperature;
     relativeHumidity.innerHTML = weatherData.current.relative_humidity_2m;
     windSpeed.innerHTML = weatherData.current.wind_speed_10m;
@@ -55,6 +63,8 @@ function render(weatherData){
     apparentTemperature.innerHTML = weatherData.current.apparent_temperature;
 
     weatherCode(weatherData);
+
+    load.style.display = "none"
 
 }
 
